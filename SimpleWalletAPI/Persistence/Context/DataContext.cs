@@ -1,7 +1,7 @@
-﻿using Domain.Common;
+﻿using Application.Common.Interfaces;
+using Domain.Common;
 using Domain.Entities;
 using Domain.Entities.Identity;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Interceptors;
@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace Persistence.Context
 {
-    public class DataContext : IdentityDbContext<AppUser, AppRole, Guid>
+    public class DataContext : IdentityDbContext<AppUser, AppRole, Guid>, IDataContext
     {
         private readonly AuditableEntityInterceptor _auditableEntityInterceptor;
         public DataContext(DbContextOptions<DataContext> options,
@@ -18,9 +18,12 @@ namespace Persistence.Context
             _auditableEntityInterceptor = auditableEntityInterceptor;
         }
 
+        public DbSet<Card> Cards { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+           // modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             CreateForeignKeysForAuditableEntities(modelBuilder);
             base.OnModelCreating(modelBuilder);
