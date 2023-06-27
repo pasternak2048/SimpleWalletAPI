@@ -49,6 +49,7 @@ namespace Persistence
                     };
                 });
 
+            services.AddScoped<ICardRepository, CardRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

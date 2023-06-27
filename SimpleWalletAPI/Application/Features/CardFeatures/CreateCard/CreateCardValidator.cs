@@ -1,6 +1,12 @@
-﻿namespace Application.Features.CardFeatures.CreateCard
+﻿using FluentValidation;
+
+namespace Application.Features.CardFeatures.CreateCard
 {
-    internal class CreateCardValidator
+    public class CreateCardValidator : AbstractValidator<CreateCardRequest>
     {
+        public CreateCardValidator()
+        {
+            RuleFor(p => p.BalanceLimit).GreaterThanOrEqualTo(0);
+        }
     }
 }

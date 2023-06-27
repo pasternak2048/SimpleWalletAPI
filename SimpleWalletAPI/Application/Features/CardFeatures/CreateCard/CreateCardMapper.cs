@@ -1,11 +1,13 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using Domain.Entities;
 
 namespace Application.Features.CardFeatures.CreateCard
 {
-    public sealed class CreateCardMapper : AbstractValidator<CreateCardRequest>
+    public sealed class CreateCardMapper : Profile
     {
         public CreateCardMapper() {
-            RuleFor(p => p.BalanceLimit).GreaterThanOrEqualTo(0);
+            CreateMap<CreateCardRequest, Card>();
+            CreateMap<Card, CreateCardResponse>();
         }
     }
 }
