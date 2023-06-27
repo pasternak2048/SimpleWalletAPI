@@ -1,4 +1,5 @@
 ﻿using Application.Common.Exceptions;
+using Application.Common.Interfaces;
 using Application.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -13,24 +14,27 @@ namespace Application.Features.TransactionFeatures.CreateTransaction
         private readonly ICardRepository _cardRepository;
         private readonly ITransactionRepository _transactionRepository;
         private readonly IMapper _mapper;
+        private readonly ICurrentUserService _currentUserService;
 
-        public CreateTransactionHandler(IUnitOfWork unitOfWork, ICardRepository cardRepository, ITransactionRepository transactionRepository, IMapper mapper)
+        public CreateTransactionHandler(IUnitOfWork unitOfWork, ICardRepository cardRepository, ITransactionRepository transactionRepository, IMapper mapper, ICurrentUserService currentUserService)
         {
             _unitOfWork = unitOfWork;
             _cardRepository = cardRepository;
             _transactionRepository = transactionRepository;
             _mapper = mapper;
+            _currentUserService = currentUserService;
         }
 
         public async Task<CreateTransactionResponse> Handle(CreateTransactionRequest request, CancellationToken cancellationToken)
         {
-            var card = await _cardRepository.Get(request.CardId, cancellationToken);
-            var balance = card.Balance;
+            var card = await _cardRepository.Get(request.CardId, _currentUserService.UserId, cancellationToken);
 
             if (card == null)
             {
                 throw new NotFoundException("Card", request.CardId);
             }
+
+            var balance = card.Balance;
 
             switch (request.TransactionTypeId)
             {

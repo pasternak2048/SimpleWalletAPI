@@ -7,6 +7,6 @@ namespace Application.Repositories
         void Create(Card entity);
         void Update(Card entity);
 
-        Task<Card> Get(Guid id, CancellationToken cancellationToken);
+        Task<Card> Get(Guid cardId, Guid? userId, CancellationToken cancellationToken);
     }
 }
