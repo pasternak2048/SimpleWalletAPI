@@ -1,9 +1,8 @@
-﻿using Domain.Common;
-using Domain.Enums;
+﻿using Domain.Enums;
 
-namespace Domain.Entities
+namespace Application.Features.TransactionFeatures.GetTransaction
 {
-    public class Transaction : AuditableEntity
+    public class GetTransactionResponse
     {
         public Guid Id { get; set; }
         public Guid CardId { get; set; }
@@ -13,7 +12,7 @@ namespace Domain.Entities
         public double PreviewBalance { get; set; }
         public TransactionTypeEnum TransactionTypeId { get; set; }
         public TransactionStatusEnum TransactionStatusId { get; set; }
-
-        public Card Card { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public Guid CreatedById { get; set; }
     }
 }
