@@ -1,5 +1,6 @@
 ﻿using Application.Repositories;
 using Domain.Entities;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Context;
 
@@ -19,9 +20,34 @@ namespace Persistence.Repositories
             Context.Add(entity);
         }
 
-        public async Task<Transaction> Get(Guid id, CancellationToken cancellationToken)
+        public async Task<Transaction> Get(Guid transactionId, Guid? userId, CancellationToken cancellationToken)
         {
-            return await Context.Set<Transaction>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+            var transactionQueryable = Context.Transactions.AsNoTracking().AsQueryable();
+
+            if (userId != null)
+            {
+                transactionQueryable = transactionQueryable.Where(x => x.CreatedById == userId);
+            }
+
+            var transaction = await transactionQueryable.FirstOrDefaultAsync(x => x.Id == transactionId, cancellationToken);
+
+            return transaction;
+        }
+
+        public async Task<List<Transaction>> GetList(Guid userId, Guid? cardId, int pageNumber, int pageSize, CancellationToken cancellationToken)
+        {
+            var transactionsQueryable = Context.Transactions.Where(t => t.CreatedById == userId).OrderByDescending(t=>t.CreatedAt).AsQueryable();
+
+            transactionsQueryable = transactionsQueryable
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize);
+
+            if (cardId != null)
+            {
+                transactionsQueryable = transactionsQueryable.Where(t => t.CardId == cardId);
+            }
+
+            return await transactionsQueryable.ToListAsync(cancellationToken);
         }
     }
 }

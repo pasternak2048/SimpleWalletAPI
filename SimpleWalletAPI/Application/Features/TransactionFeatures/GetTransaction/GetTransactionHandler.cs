@@ -1,4 +1,5 @@
 ﻿using Application.Common.Exceptions;
+using Application.Common.Interfaces;
 using Application.Repositories;
 using AutoMapper;
 using MediatR;
@@ -9,16 +10,18 @@ namespace Application.Features.TransactionFeatures.GetTransaction
     {
         private readonly ITransactionRepository _transactionRepository;
         private readonly IMapper _mapper;
+        private readonly ICurrentUserService _currentUserService;
 
-        public GetTransactionHandler(ITransactionRepository transactionRepository, IMapper mapper)
+        public GetTransactionHandler(ITransactionRepository transactionRepository, IMapper mapper, ICurrentUserService currentUserService)
         {
             _transactionRepository = transactionRepository;
             _mapper = mapper;
+            _currentUserService = currentUserService;
         }
 
         public async Task<GetTransactionResponse> Handle(GetTransactionRequest request, CancellationToken cancellationToken)
         {
-            var transaction = await _transactionRepository.Get(request.TransactionId, cancellationToken);
+            var transaction = await _transactionRepository.Get(request.TransactionId, _currentUserService.UserId.Value, cancellationToken);
 
             if (transaction == null)
             {

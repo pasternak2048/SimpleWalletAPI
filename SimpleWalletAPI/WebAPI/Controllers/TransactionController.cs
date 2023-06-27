@@ -1,6 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Application.Features.TransactionFeatures.CreateTransaction;
 using Application.Features.TransactionFeatures.GetTransaction;
+using Application.Features.TransactionFeatures.GetTransactions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -31,10 +32,14 @@ namespace WebAPI.Controllers
         public async Task<ActionResult<GetTransactionResponse>> GetTransaction([FromQuery]GetTransactionRequest request, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(request, cancellationToken);
-            if(result.CreatedById != _currentUserService.UserId)
-            {
-                return StatusCode(403);
-            }
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpGet("GetTransactions")]
+        public async Task<ActionResult<GetTransactionsResponse>> GetTransactions([FromQuery] GetTransactionsRequest request, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(request, cancellationToken);
             return Ok(result);
         }
     }
