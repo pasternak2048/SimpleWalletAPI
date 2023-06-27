@@ -6,7 +6,7 @@ namespace Application.Features.CardFeatures.CreateCard
     {
         public CreateCardValidator()
         {
-            RuleFor(p => p.BalanceLimit).GreaterThanOrEqualTo(0);
+            RuleFor(p=>p.Name).NotEmpty();
         }
     }
 }

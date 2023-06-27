@@ -16,9 +16,9 @@ namespace WebAPI.Controllers
 
         [Authorize]
         [HttpPost("CreateCard")]
-        public async Task<ActionResult<CreateCardResponse>> CreateCard()
+        public async Task<ActionResult<CreateCardResponse>> CreateCard(CreateCardRequest request, CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new CreateCardRequest());
+            var result = await _mediator.Send(request, cancellationToken);
             return Ok(result);
         }
     }
