@@ -15,6 +15,7 @@ builder.Services.ConfigureApplication();
 builder.Services.ConfigureApiBehavior();
 builder.Services.ConfigureCorsPolicy();
 builder.Services.ConfigureSwaggerServices();
+builder.Services.ConfigureAutoMapperServices();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

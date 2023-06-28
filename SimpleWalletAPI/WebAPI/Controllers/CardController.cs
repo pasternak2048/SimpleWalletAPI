@@ -25,7 +25,7 @@ namespace WebAPI.Controllers
 
         [Authorize]
         [HttpGet("GetCard")]
-        public async Task<ActionResult<GetCardResponse>> GetCard(GetCardRequest request)
+        public async Task<ActionResult<GetCardResponse>> GetCard([FromQuery]GetCardRequest request)
         {
             var result = await _mediator.Send(request);
             return Ok(result);
