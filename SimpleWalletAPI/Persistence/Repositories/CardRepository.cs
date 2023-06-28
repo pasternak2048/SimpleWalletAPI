@@ -24,18 +24,20 @@ namespace Persistence.Repositories
             Context.Update(entity);
         }
 
-        public async Task<Card> Get(Guid cardId, Guid? userId, CancellationToken cancellationToken)
+        public async Task<Card> Get(Guid cardId, Guid userId, CancellationToken cancellationToken)
         {
             var cardQueryable = Context.Cards.AsNoTracking().AsQueryable();
 
-            if (userId != null)
-            {
-                cardQueryable = cardQueryable.Where(x => x.CreatedById == userId);
-            }
-
-            var card = await cardQueryable.FirstOrDefaultAsync(x => x.Id == cardId, cancellationToken);
+            var card = await cardQueryable.FirstOrDefaultAsync(x => x.Id == cardId && x.CreatedById == userId, cancellationToken);
 
             return card;
+        }
+
+        public async Task<List<Card>> GetList(Guid userId, CancellationToken cancellationToken)
+        {
+            var cardsQueryable = Context.Cards.Where(t => t.CreatedById == userId).OrderByDescending(t => t.CreatedAt).AsQueryable();
+
+            return await cardsQueryable.ToListAsync(cancellationToken);
         }
     }
 }

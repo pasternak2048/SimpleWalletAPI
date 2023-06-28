@@ -27,7 +27,7 @@ namespace Application.Features.TransactionFeatures.CreateTransaction
 
         public async Task<CreateTransactionResponse> Handle(CreateTransactionRequest request, CancellationToken cancellationToken)
         {
-            var card = await _cardRepository.Get(request.CardId, _currentUserService.UserId, cancellationToken);
+            var card = await _cardRepository.Get(request.CardId, _currentUserService.UserId.GetValueOrDefault(), cancellationToken);
 
             if (card == null)
             {

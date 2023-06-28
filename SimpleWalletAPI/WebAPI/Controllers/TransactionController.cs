@@ -37,7 +37,7 @@ namespace WebAPI.Controllers
 
         [Authorize]
         [HttpGet("GetTransactions")]
-        public async Task<ActionResult<GetTransactionsResponse>> GetTransactions([FromQuery] GetTransactionsRequest request, CancellationToken cancellationToken)
+        public async Task<ActionResult<List<GetTransactionsResponse>>> GetTransactions([FromQuery] GetTransactionsRequest request, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(request, cancellationToken);
             return Ok(result);

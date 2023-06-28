@@ -20,16 +20,11 @@ namespace Persistence.Repositories
             Context.Add(entity);
         }
 
-        public async Task<Transaction> Get(Guid transactionId, Guid? userId, CancellationToken cancellationToken)
+        public async Task<Transaction> Get(Guid transactionId, Guid userId, CancellationToken cancellationToken)
         {
             var transactionQueryable = Context.Transactions.AsNoTracking().AsQueryable();
 
-            if (userId != null)
-            {
-                transactionQueryable = transactionQueryable.Where(x => x.CreatedById == userId);
-            }
-
-            var transaction = await transactionQueryable.FirstOrDefaultAsync(x => x.Id == transactionId, cancellationToken);
+            var transaction = await transactionQueryable.FirstOrDefaultAsync(x => x.Id == transactionId && x.CreatedById == userId, cancellationToken);
 
             return transaction;
         }
@@ -38,14 +33,14 @@ namespace Persistence.Repositories
         {
             var transactionsQueryable = Context.Transactions.Where(t => t.CreatedById == userId).OrderByDescending(t=>t.CreatedAt).AsQueryable();
 
-            transactionsQueryable = transactionsQueryable
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize);
-
             if (cardId != null)
             {
                 transactionsQueryable = transactionsQueryable.Where(t => t.CardId == cardId);
             }
+
+            transactionsQueryable = transactionsQueryable
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize);
 
             return await transactionsQueryable.ToListAsync(cancellationToken);
         }
