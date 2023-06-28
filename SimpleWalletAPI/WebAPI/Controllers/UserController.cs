@@ -33,6 +33,7 @@ namespace WebAPI.Controllers
             var userResult = new UserDto()
             {
                 Id = user!.Id,
+                Username = user!.UserName!,
                 FirstName = user!.FirstName!,
                 LastName = user!.LastName!,
                 Email = user!.Email!,
