@@ -22,6 +22,7 @@ namespace Persistence.Context
 
         public DbSet<Card> Cards { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<ViewTransaction> ViewTransactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

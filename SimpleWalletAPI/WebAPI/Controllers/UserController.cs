@@ -30,7 +30,7 @@ namespace WebAPI.Controllers
             var user = await _userManager.Users
                 .SingleOrDefaultAsync(x => x.Id == _currentUserService.UserId);
 
-            var userResult = new UserDto()
+            var userResult = new UserPersonalDto()
             {
                 Id = user!.Id,
                 Username = user!.UserName!,
