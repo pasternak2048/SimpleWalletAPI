@@ -56,6 +56,7 @@ namespace Persistence
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
             services.AddScoped<AuditableEntityInterceptor>();
+            services.AddScoped<IBonusService, BonusService>();
         }
     }
 }

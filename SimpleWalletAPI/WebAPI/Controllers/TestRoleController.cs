@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Application.Common.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
@@ -6,6 +7,13 @@ namespace WebAPI.Controllers
 {
     public class TestRoleController : BaseApiController
     {
+        private readonly IBonusService _bonusService;
+
+        public TestRoleController(IBonusService bonusService)
+        {
+            _bonusService = bonusService;
+        }
+
         [Authorize]
         [HttpGet("TestAuthorize")]
         public async Task<ActionResult> TestAuthorize()
@@ -32,6 +40,12 @@ namespace WebAPI.Controllers
         public async Task<ActionResult> TestAuthorizeRoleUser()
         {
             return Ok();
+        }
+
+        [HttpGet("TestSeason")]
+        public async Task<ActionResult<double>> GetDayOfSeason()
+        {
+            return _bonusService.GetBonuses();
         }
     }
 }
