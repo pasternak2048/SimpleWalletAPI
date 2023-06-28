@@ -1,7 +1,6 @@
 using Application;
 using Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
 using Persistence.Context;
 using Persistence.Models;
@@ -15,6 +14,7 @@ builder.Services.ConfigureApplication();
 builder.Services.ConfigureApiBehavior();
 builder.Services.ConfigureCorsPolicy();
 builder.Services.ConfigureSwaggerServices();
+builder.Services.ConfigureAutoMapperServices();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

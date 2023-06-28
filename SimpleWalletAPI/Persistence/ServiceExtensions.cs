@@ -2,6 +2,7 @@
 using Application.Repositories;
 using Domain.Entities.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -10,7 +11,9 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Persistence.Authentication;
 using Persistence.Context;
+using Persistence.Interceptors;
 using Persistence.Repositories;
+using Persistence.Services;
 using System.Text;
 
 namespace Persistence
@@ -46,8 +49,14 @@ namespace Persistence
                     };
                 });
 
+            services.AddScoped<ICardRepository, CardRepository>();
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<ICurrentUserService, CurrentUserService>();
+            services.AddScoped<AuditableEntityInterceptor>();
+            services.AddScoped<IBonusService, BonusService>();
         }
     }
 }
