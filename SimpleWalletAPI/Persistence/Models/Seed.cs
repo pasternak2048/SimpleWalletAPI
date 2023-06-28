@@ -1,7 +1,6 @@
 ﻿using Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Persistence.Context;
 
 namespace Persistence.Models
 {
@@ -11,8 +10,6 @@ namespace Persistence.Models
             RoleManager<AppRole> roleManager)
         {
             if (await userManager.Users.AnyAsync()) return;
-
-            
 
             var roles = new List<AppRole>
             {
