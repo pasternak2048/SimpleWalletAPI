@@ -8,8 +8,8 @@ namespace Persistence.Services
     {
         public double GetBonuses()
         {
-            var currentDateTime = DateTime.UtcNow;
-            //var currentDateTime = new DateTime(2023, 08, 24);
+            //var currentDateTime = DateTime.UtcNow;
+            var currentDateTime = new DateTime(2023, 08, 24);
 
             DateTime seasonStart;
             int currentDay = 0;
@@ -61,7 +61,26 @@ namespace Persistence.Services
                     }     
             }
 
-            return (double)currentDay;
+            return GetBonus(currentDay);
+        }
+
+        private double GetBonus(int day)
+        {
+            if (day == 1) return 2;
+            if (day == 2) return 3;
+
+            double dayOne = 2;
+            double dayTwo = 3;
+            double totalCount = 0;
+
+            for (int i = 2; i < day; i++)
+            {
+                totalCount =  (dayTwo * 0.6) + dayOne;
+                dayOne = dayTwo;
+                dayTwo = totalCount;
+            }
+
+            return totalCount;
         }
     }
 }
