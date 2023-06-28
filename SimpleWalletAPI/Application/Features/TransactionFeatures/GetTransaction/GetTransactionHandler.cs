@@ -21,7 +21,7 @@ namespace Application.Features.TransactionFeatures.GetTransaction
 
         public async Task<GetTransactionResponse> Handle(GetTransactionRequest request, CancellationToken cancellationToken)
         {
-            var transaction = await _transactionRepository.Get(request.TransactionId, _currentUserService.UserId.Value, cancellationToken);
+            var transaction = await _transactionRepository.Get(request.TransactionId, _currentUserService.UserId.GetValueOrDefault(), cancellationToken);
 
             if (transaction == null)
             {

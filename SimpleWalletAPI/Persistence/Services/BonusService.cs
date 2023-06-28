@@ -8,7 +8,8 @@ namespace Persistence.Services
     {
         public double GetBonuses()
         {
-            var currentDateTime = new DateTime(2023, 08, 24);
+            var currentDateTime = DateTime.UtcNow;
+            //var currentDateTime = new DateTime(2023, 08, 24);
 
             DateTime seasonStart;
             int currentDay = 0;

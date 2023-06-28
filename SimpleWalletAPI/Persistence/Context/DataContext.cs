@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Persistence.Interceptors;
 using System.Reflection;
 
+#nullable disable
+
 namespace Persistence.Context
 {
     public class DataContext : IdentityDbContext<AppUser, AppRole, Guid>, IDataContext
@@ -23,7 +25,6 @@ namespace Persistence.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           // modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             CreateForeignKeysForAuditableEntities(modelBuilder);
             base.OnModelCreating(modelBuilder);

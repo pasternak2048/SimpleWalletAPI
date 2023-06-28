@@ -8,10 +8,10 @@ namespace Domain.Entities
             Transactions = new HashSet<Transaction>();
         }
         public Guid Id { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public double Balance { get; set; }
         public double BalanceLimit { get; set; }
 
-        public ICollection<Transaction> Transactions { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
     }
 }

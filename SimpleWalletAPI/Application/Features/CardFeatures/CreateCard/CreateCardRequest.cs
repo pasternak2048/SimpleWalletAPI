@@ -2,8 +2,5 @@
 
 namespace Application.Features.CardFeatures.CreateCard
 {
-    public sealed class CreateCardRequest : IRequest<CreateCardResponse>
-    {
-        public string Name { get; set; }
-    }
+    public sealed record CreateCardRequest(string Name) : IRequest<CreateCardResponse>;
 }

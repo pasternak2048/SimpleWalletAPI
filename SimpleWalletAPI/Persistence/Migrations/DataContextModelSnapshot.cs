@@ -57,7 +57,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("ModifiedById");
 
-                    b.ToTable("Cards");
+                    b.ToTable("Cards", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Identity.AppRole", b =>
@@ -205,7 +205,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("ModifiedById");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("Transactions", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

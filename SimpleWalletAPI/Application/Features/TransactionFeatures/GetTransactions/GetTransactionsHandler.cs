@@ -23,7 +23,7 @@ namespace Application.Features.TransactionFeatures.GetTransactions
 
         public async Task<List<GetTransactionsResponse>> Handle(GetTransactionsRequest request, CancellationToken cancellationToken)
         {
-            var transactions = await _transactionRepository.GetList(_currentUserService.UserId.Value, request.CardId, request.PageNumber, request.PageSize, cancellationToken);
+            var transactions = await _transactionRepository.GetList(_currentUserService.UserId.GetValueOrDefault(), request.CardId, request.PageNumber, request.PageSize, cancellationToken);
 
             return _mapper.Map<List<GetTransactionsResponse>>(transactions);
         }

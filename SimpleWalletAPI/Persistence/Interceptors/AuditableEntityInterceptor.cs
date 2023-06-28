@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Application.Common.Interfaces;
 
+#nullable disable
+
 namespace Persistence.Interceptors
 {
     public class AuditableEntityInterceptor : SaveChangesInterceptor
