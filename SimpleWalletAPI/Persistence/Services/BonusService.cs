@@ -6,7 +6,7 @@ namespace Persistence.Services
 {
     public class BonusService : IBonusService
     {
-        public double GetBonuses()
+        private int GetSeasonDay()
         {
             //var currentDateTime = DateTime.UtcNow;
             var currentDateTime = new DateTime(2023, 08, 24);
@@ -61,7 +61,7 @@ namespace Persistence.Services
                     }     
             }
 
-            return GetBonus(currentDay);
+            return currentDay;
         }
 
         private double GetBonus(int day)
@@ -81,6 +81,35 @@ namespace Persistence.Services
             }
 
             return totalCount;
+        }
+
+        private double GetBonusAlternative(int day)
+        {
+            if (day == 1) return 2;
+            if (day == 2) return 5; // first day - 2, second day - 3, sum - 5
+
+            double dayOne = 2;
+            double dayTwo = 5;
+            double totalCount = 5;
+
+            for (int i = 2; i < day; i++)
+            {
+                totalCount = totalCount + (dayTwo * 0.6) + dayOne;
+                dayOne = dayTwo;
+                dayTwo = totalCount;
+            }
+
+            return totalCount;
+        }
+
+        public double GetBonuses()
+        {
+            return GetBonus(GetSeasonDay());
+        }
+
+        public double GetBonusesAlternative()
+        {
+            return GetBonusAlternative(GetSeasonDay());
         }
     }
 }

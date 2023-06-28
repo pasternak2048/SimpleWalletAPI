@@ -37,6 +37,7 @@ namespace WebAPI.Controllers
                 LastName = user!.LastName!,
                 Email = user!.Email!,
                 Bonuses = _bonusService.GetBonuses(),
+                BonusesAlternative = _bonusService.GetBonusesAlternative(),
             };
             
             return Ok(userResult);

@@ -3,5 +3,6 @@
     public interface IBonusService
     {
         double GetBonuses();
+        double GetBonusesAlternative();
     }
 }

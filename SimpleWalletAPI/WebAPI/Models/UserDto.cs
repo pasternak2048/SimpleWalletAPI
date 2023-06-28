@@ -7,5 +7,6 @@
         public string LastName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public double Bonuses { get; set; }
+        public double BonusesAlternative { get; set; }
     }
 }
