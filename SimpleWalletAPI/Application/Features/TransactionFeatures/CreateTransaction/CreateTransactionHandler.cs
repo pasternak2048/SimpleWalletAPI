@@ -11,23 +11,19 @@ namespace Application.Features.TransactionFeatures.CreateTransaction
     public class CreateTransactionHandler : IRequestHandler<CreateTransactionRequest, CreateTransactionResponse>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ICardRepository _cardRepository;
-        private readonly ITransactionRepository _transactionRepository;
         private readonly IMapper _mapper;
         private readonly ICurrentUserService _currentUserService;
 
-        public CreateTransactionHandler(IUnitOfWork unitOfWork, ICardRepository cardRepository, ITransactionRepository transactionRepository, IMapper mapper, ICurrentUserService currentUserService)
+        public CreateTransactionHandler(IUnitOfWork unitOfWork, IMapper mapper, ICurrentUserService currentUserService)
         {
             _unitOfWork = unitOfWork;
-            _cardRepository = cardRepository;
-            _transactionRepository = transactionRepository;
             _mapper = mapper;
             _currentUserService = currentUserService;
         }
 
         public async Task<CreateTransactionResponse> Handle(CreateTransactionRequest request, CancellationToken cancellationToken)
         {
-            var card = await _cardRepository.Get(request.CardId, _currentUserService.UserId.GetValueOrDefault(), cancellationToken);
+            var card = await _unitOfWork.CardRepository.Get(request.CardId, _currentUserService.UserId.GetValueOrDefault(), cancellationToken);
 
             if (card == null)
             {
@@ -66,8 +62,8 @@ namespace Application.Features.TransactionFeatures.CreateTransaction
             var transaction = _mapper.Map<Transaction>(request);
             transaction.PreviewBalance = balance;
             transaction.TransactionStatusId = (TransactionStatusEnum)Random.Shared.Next(1, 3);
-            _transactionRepository.Create(transaction);
-            _cardRepository.Update(card);
+            _unitOfWork.TransactionRepository.Create(transaction);
+            _unitOfWork.CardRepository.Update(card);
             await _unitOfWork.Save(cancellationToken);
 
             return _mapper.Map<CreateTransactionResponse>(transaction);

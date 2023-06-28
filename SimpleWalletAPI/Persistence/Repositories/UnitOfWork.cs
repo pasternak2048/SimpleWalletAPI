@@ -11,6 +11,11 @@ namespace Persistence.Repositories
         {
             _context = context;
         }
+
+        public ITransactionRepository TransactionRepository => new TransactionRepository(_context);
+
+        public ICardRepository CardRepository => new CardRepository(_context);
+
         public Task Save(CancellationToken cancellationToken)
         {
             return _context.SaveChangesAsync(cancellationToken);
